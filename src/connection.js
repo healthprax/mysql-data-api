@@ -10,11 +10,18 @@ class Connection extends EventEmitter {
   }) {
     super();
 
+    var options = {};
+    if(host.indexOf('|')!=-1){
+      const params = host.split('|');
+      options.endpoint = params[0];
+      host = params[1];
+    }
     if (!client) {
       client = DataApi({
         resourceArn: host,
         secretArn: password,
         database,
+        options,
       });
     }
 
